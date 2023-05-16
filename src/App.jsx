@@ -1,5 +1,5 @@
 import avocadoPNG from './assets/avocado.png';
-import './App.css';
+import './App.scss';
 
 function App() {
 	return (
@@ -14,6 +14,7 @@ function App() {
 				</div>
 				<h1>Fitness calendar</h1>
 			</div>
+			<div className='calendar'></div>
 		</>
 	);
 }

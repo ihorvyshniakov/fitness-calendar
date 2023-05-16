@@ -23,14 +23,13 @@ h1 {
 }
 
 .loader {
-}
+	.logo {
+		display: flex;
+		justify-content: center;
+		align-items: center;
 
-.logo {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
-
-.logo > img {
-	height: 6rem;
+		& > img {
+			height: 6rem;
+		}
+	}
 }
