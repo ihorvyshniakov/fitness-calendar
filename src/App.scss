@@ -2,12 +2,6 @@
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
-	font-family: 'Indie Flower', cursive;
-	letter-spacing: 0.2rem;
-}
-
-html {
-	font-size: 36px;
 }
 
 body {
@@ -19,7 +13,9 @@ body {
 }
 
 h1 {
-	font-size: 1rem;
+	font-size: 40px;
+	font-family: 'Indie Flower', fantasy;
+	letter-spacing: 0.3rem;
 }
 
 .loader {
@@ -29,7 +25,10 @@ h1 {
 		align-items: center;
 
 		& > img {
-			height: 6rem;
+			height: 200px;
 		}
 	}
+}
+
+.calendar {
 }
