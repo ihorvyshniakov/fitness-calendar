@@ -4,6 +4,8 @@ import updateLocale from 'dayjs/plugin/updateLocale';
 import localeData from 'dayjs/plugin/localeData';
 import weekday from 'dayjs/plugin/weekday';
 
+import { generateMonthDays } from './components/helpers/Functions';
+
 import './App.scss';
 
 import calendarExample from './assets/calendar-example.jpeg';
@@ -32,32 +34,13 @@ const now = dayjs();
 const App = () => {
 	const [activeDate, setActiveDate] = useState(now);
 
-	const generateMonthDays = (daysInMonth, firstDayOfWeek) => {
-		let result = [...Array(42)];
-		result = result.map((item, id) => {
-			const id1 = id + 1;
-			return id1 <= daysInMonth ? id1 : null;
-		});
-		if (firstDayOfWeek == 0) {
-			for (let i = 1; i < 7; i++) {
-				result.unshift(null);
-				result.pop();
-			}
-		} else {
-			for (let i = 1; i < firstDayOfWeek; i++) {
-				result.unshift(null);
-				result.pop();
-			}
-		}
-
-		return result;
+	const handlePrevMonth = () => {
+		setActiveDate(prevDate => prevDate.month(prevDate.month() - 1));
 	};
 
-	// console.log(dayjs('2023-06-20').daysInMonth());
-	// console.log(dayjs('2023-05-20').startOf('month').day());
-	// console.log(dayjs().daysInMonth());
-	// console.log(dayjs.weekdaysShort());
-	// console.log('activeDate: ', activeDate.format('YYYY MMM'));
+	const handleNextMonth = () => {
+		setActiveDate(prevDate => prevDate.month(prevDate.month() + 1));
+	};
 
 	return (
 		<>
@@ -73,23 +56,12 @@ const App = () => {
 				<div className='top-navigation'>
 					<div className='year'>{activeDate.format('YYYY MMMM')}</div>
 					<div className='navigations'>
-						<div
-							className='chevron-left'
-							onClick={() =>
-								setActiveDate(prevDate =>
-									prevDate.month(prevDate.month() - 1)
-								)
-							}
-						>
+						<div className='chevron-left' onClick={handlePrevMonth}>
 							<ChevronLeft />
 						</div>
 						<div
 							className='chevron-right'
-							onClick={() =>
-								setActiveDate(prevDate =>
-									prevDate.month(prevDate.month() + 1)
-								)
-							}
+							onClick={handleNextMonth}
 						>
 							<ChevronRight />
 						</div>
