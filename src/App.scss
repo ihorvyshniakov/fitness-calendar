@@ -99,18 +99,19 @@ h1 {
 				height: 60px;
 				transition: stroke 0.2s linear;
 
-				&:active {
+				&:hover {
 					cursor: pointer;
+					opacity: 0.8;
+				}
 
-					path {
-						stroke: white;
-					}
+				&:active path {
+					stroke: white;
 				}
 			}
 		}
 
 		.year {
-			font-size: 26px;
+			font-size: 24px;
 		}
 	}
 

@@ -1,28 +1,63 @@
+import { useState } from 'react';
 import * as dayjs from 'dayjs';
-import weekday from 'dayjs/plugin/weekday';
-// import weekday from 'dayjs/locale/ua';
-// import locale from 'dayjs/locale';
-import 'dayjs/locale/uk';
+import updateLocale from 'dayjs/plugin/updateLocale';
 import localeData from 'dayjs/plugin/localeData';
+import weekday from 'dayjs/plugin/weekday';
 
-// import leftChevron from './assets/chevron-left.png';
-// import rightChevron from './assets/chevron-right.png';
-import avocadoPNG from './assets/avocado.png';
 import './App.scss';
 
-const WEEK_TITLES = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Нд'];
+import calendarExample from './assets/calendar-example.jpeg';
+import avocadoPNG from './assets/avocado.png';
+import ChevronLeft from './components/icons/ChevronLeft';
+import ChevronRight from './components/icons/ChevronRight';
+
+// setup of Day.js
+dayjs.extend(localeData);
+dayjs.extend(updateLocale);
+dayjs.extend(weekday);
+dayjs.updateLocale('en', {
+	weekdays: [
+		'Monday',
+		'Tuesday',
+		'Wednesday',
+		'Thursday',
+		'Friday',
+		'Saturday',
+		'Sunday'
+	],
+	weekdaysShort: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+});
+const now = dayjs();
 
 const App = () => {
-	const generateDate = () => {
-		dayjs.locale('uk');
-		dayjs.extend(localeData);
+	const [activeDate, setActiveDate] = useState(now);
 
-		// dayjs().weekday(0);
-		// dayjs().day(1);
-		// dayjs.weekdays();
+	const generateMonthDays = (daysInMonth, firstDayOfWeek) => {
+		let result = [...Array(42)];
+		result = result.map((item, id) => {
+			const id1 = id + 1;
+			return id1 <= daysInMonth ? id1 : null;
+		});
+		if (firstDayOfWeek == 0) {
+			for (let i = 1; i < 7; i++) {
+				result.unshift(null);
+				result.pop();
+			}
+		} else {
+			for (let i = 1; i < firstDayOfWeek; i++) {
+				result.unshift(null);
+				result.pop();
+			}
+		}
+
+		return result;
 	};
 
-	generateDate();
+	// console.log(dayjs('2023-06-20').daysInMonth());
+	// console.log(dayjs('2023-05-20').startOf('month').day());
+	// console.log(dayjs().daysInMonth());
+	// console.log(dayjs.weekdaysShort());
+	// console.log('activeDate: ', activeDate.format('YYYY MMM'));
 
 	return (
 		<>
@@ -36,57 +71,33 @@ const App = () => {
 			<h1>Fitness calendar</h1>
 			<div className='calendar'>
 				<div className='top-navigation'>
-					<div className='year'>{dayjs().year()}</div>
+					<div className='year'>{activeDate.format('YYYY MMMM')}</div>
 					<div className='navigations'>
-						<div className='chevron-left'>
-							<svg
-								width='800px'
-								height='800px'
-								viewBox='0 0 24 24'
-								fill='none'
-								xmlns='http://www.w3.org/2000/svg'
-							>
-								<path
-									d='M3 12C3 4.5885 4.5885 3 12 3C19.4115 3 21 4.5885 21 12C21 19.4115 19.4115 21 12 21C4.5885 21 3 19.4115 3 12Z'
-									stroke='#323232'
-									strokeWidth='2'
-								/>
-								<path
-									d='M13 9L10.2625 11.7375V11.7375C10.1175 11.8825 10.1175 12.1175 10.2625 12.2625V12.2625L13 15'
-									stroke='#323232'
-									strokeWidth='2'
-									strokeLinecap='round'
-									strokeLinejoin='round'
-								/>
-							</svg>
+						<div
+							className='chevron-left'
+							onClick={() =>
+								setActiveDate(prevDate =>
+									prevDate.month(prevDate.month() - 1)
+								)
+							}
+						>
+							<ChevronLeft />
 						</div>
-						<div className='chevron-right'>
-							<svg
-								width='800px'
-								height='800px'
-								viewBox='0 0 24 24'
-								fill='none'
-								xmlns='http://www.w3.org/2000/svg'
-							>
-								<path
-									d='M11 15L13.7158 12.2842V12.2842C13.8728 12.1272 13.8728 11.8728 13.7158 11.7158V11.7158L11 9'
-									stroke='#323232'
-									strokeWidth='2'
-									strokeLinecap='round'
-									strokeLinejoin='round'
-								/>
-								<path
-									d='M3 12C3 4.5885 4.5885 3 12 3C19.4115 3 21 4.5885 21 12C21 19.4115 19.4115 21 12 21C4.5885 21 3 19.4115 3 12Z'
-									stroke='#323232'
-									strokeWidth='2'
-								/>
-							</svg>
+						<div
+							className='chevron-right'
+							onClick={() =>
+								setActiveDate(prevDate =>
+									prevDate.month(prevDate.month() + 1)
+								)
+							}
+						>
+							<ChevronRight />
 						</div>
 					</div>
 				</div>
 				<div className='month'>
 					<div className='month-titles'>
-						{WEEK_TITLES.map((title, id) => (
+						{dayjs.weekdaysShort().map((title, id) => (
 							<div
 								key={`title-${id}`}
 								className='cell month-title'
@@ -96,21 +107,26 @@ const App = () => {
 						))}
 					</div>
 					<div className='month-days'>
-						{[...Array(31)].map((day, id) => (
+						{generateMonthDays(
+							activeDate.daysInMonth(),
+							activeDate.startOf('month').day()
+						).map((dayNumber, id) => (
 							<div
-								key={`day-${id}`}
+								key={`day-${id + 1}`}
 								className='cell day'
 								onClick={e => {
-									console.log('id: ', id + 1);
 									e.currentTarget.classList.toggle('active');
 								}}
 							>
-								<p>{id + 1}</p>
+								<p>{dayNumber}</p>
 							</div>
 						))}
 					</div>
 				</div>
 			</div>
+			{/* <div className='calendar-example'>
+				<img src={calendarExample} alt='' />
+			</div> */}
 		</>
 	);
 };
