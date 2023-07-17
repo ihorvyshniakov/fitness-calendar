@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import * as dayjs from 'dayjs';
 import updateLocale from 'dayjs/plugin/updateLocale';
 import localeData from 'dayjs/plugin/localeData';
@@ -33,6 +33,7 @@ const now = dayjs();
 
 const App = () => {
 	const [activeDate, setActiveDate] = useState(now);
+	const [selectedDays, setSelectedDays] = useState([]);
 
 	const handlePrevMonth = () => {
 		setActiveDate(prevDate => prevDate.month(prevDate.month() - 1));
@@ -41,6 +42,13 @@ const App = () => {
 	const handleNextMonth = () => {
 		setActiveDate(prevDate => prevDate.month(prevDate.month() + 1));
 	};
+
+	useEffect(() => {
+		// localStorage.setItem('selectedDays', selectedDays);
+		console.log('selectedDays: ', selectedDays);
+	}, [selectedDays]);
+
+	// TODO: fix bug with adding to selectedDays array
 
 	return (
 		<>
@@ -81,18 +89,34 @@ const App = () => {
 					<div className='month-days'>
 						{generateMonthDays(
 							activeDate.daysInMonth(),
-							activeDate.startOf('month').day()
-						).map((dayNumber, id) => (
-							<div
-								key={`day-${id + 1}`}
-								className='cell day'
-								onClick={e => {
-									e.currentTarget.classList.toggle('active');
-								}}
-							>
-								<p>{dayNumber}</p>
-							</div>
-						))}
+							activeDate.startOf('month').day(),
+							activeDate
+						).map((dayObj, id) =>
+							dayObj ? (
+								<div
+									key={`day-${id + 1}`}
+									className='cell day'
+									data-date={`${dayObj.day}/${dayObj.month}/${dayObj.year}`}
+									onClick={e => {
+										e.currentTarget.classList.toggle(
+											'active'
+										);
+										setSelectedDays(selectedDaysArray => {
+											return [
+												...selectedDaysArray,
+												e.currentTarget.dataset.date
+											];
+										});
+									}}
+								>
+									<p>{dayObj.day}</p>
+								</div>
+							) : (
+								<div key={`day-${id + 1}`} className='cell day'>
+									<p></p>
+								</div>
+							)
+						)}
 					</div>
 				</div>
 			</div>
