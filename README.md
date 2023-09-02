@@ -1,4 +1,4 @@
-# [Fitness calendar app](http://my-portfolio.cf/fitness-calendar-app)
+# [Fitness calendar app](https://ihorvyshniakov.github.io/fitness-calendar-app/)
 
 © 2023 Developed by Vyshniakov Ihor.
 
