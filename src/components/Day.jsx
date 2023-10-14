@@ -1,10 +1,20 @@
 const Day = props => {
 	const { dayObj, setSelectedDays } = props;
 
-	return dayObj ? (
+	if (!dayObj) {
+		return (
+			<div className='cell day'>
+				<p></p>
+			</div>
+		);
+	}
+
+	const { dayNumber, date, isCurrentDay } = dayObj;
+
+	return (
 		<div
-			className='cell day'
-			data-date={`${dayObj.day}/${dayObj.month}/${dayObj.year}`}
+			className={`cell day ${isCurrentDay ? 'currentDay' : ''}`}
+			data-date={date}
 			onClick={e => {
 				const isActive = e.target.classList.contains('active');
 				if (isActive) {
@@ -23,11 +33,7 @@ const Day = props => {
 				}
 			}}
 		>
-			<p>{dayObj.day}</p>
-		</div>
-	) : (
-		<div className='cell day'>
-			<p></p>
+			<p>{dayNumber}</p>
 		</div>
 	);
 };

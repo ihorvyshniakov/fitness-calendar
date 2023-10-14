@@ -45,11 +45,7 @@ const App = () => {
 	};
 
 	const MONTH_DAYS = useMemo(() => {
-		return generateMonthDays(
-			activeDate.daysInMonth(),
-			activeDate.startOf('month').day(),
-			activeDate
-		);
+		return generateMonthDays(activeDate, now);
 	}, [activeDate]);
 
 	// console.log('selectedDays: ', selectedDays);

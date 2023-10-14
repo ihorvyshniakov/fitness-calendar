@@ -60,6 +60,7 @@ h1 {
 	&,
 	div {
 		gap: 6px;
+		user-select: none;
 	}
 
 	.cell {
@@ -78,6 +79,10 @@ h1 {
 		&.active {
 			background-color: orange;
 			color: white;
+		}
+
+		&.currentDay {
+			border: 2px solid $blue;
 		}
 
 		p {
