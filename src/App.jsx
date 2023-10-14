@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import * as dayjs from 'dayjs';
 import updateLocale from 'dayjs/plugin/updateLocale';
 import localeData from 'dayjs/plugin/localeData';
@@ -44,7 +44,15 @@ const App = () => {
 		setActiveDate(prevDate => prevDate.month(prevDate.month() + 1));
 	};
 
-	console.log('selectedDays: ', selectedDays);
+	const MONTH_DAYS = useMemo(() => {
+		return generateMonthDays(
+			activeDate.daysInMonth(),
+			activeDate.startOf('month').day(),
+			activeDate
+		);
+	}, [activeDate]);
+
+	// console.log('selectedDays: ', selectedDays);
 
 	return (
 		<>
@@ -83,11 +91,7 @@ const App = () => {
 						))}
 					</div>
 					<div className='month-days'>
-						{generateMonthDays(
-							activeDate.daysInMonth(),
-							activeDate.startOf('month').day(),
-							activeDate
-						).map((dayObj, id) => (
+						{MONTH_DAYS.map((dayObj, id) => (
 							<Day
 								key={`day-${id + 1}`}
 								dayObj={dayObj}
