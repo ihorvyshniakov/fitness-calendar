@@ -12,6 +12,7 @@ import calendarExample from './assets/calendar-example.jpeg';
 import avocadoPNG from './assets/avocado.png';
 import ChevronLeft from './components/icons/ChevronLeft';
 import ChevronRight from './components/icons/ChevronRight';
+import Day from './components/Day';
 
 // setup of Day.js
 dayjs.extend(localeData);
@@ -43,10 +44,7 @@ const App = () => {
 		setActiveDate(prevDate => prevDate.month(prevDate.month() + 1));
 	};
 
-	useEffect(() => {
-		// localStorage.setItem('selectedDays', selectedDays);
-		console.log('selectedDays: ', selectedDays);
-	}, [selectedDays]);
+	console.log('selectedDays: ', selectedDays);
 
 	return (
 		<>
@@ -89,30 +87,13 @@ const App = () => {
 							activeDate.daysInMonth(),
 							activeDate.startOf('month').day(),
 							activeDate
-						).map((dayObj, id) =>
-							dayObj ? (
-								<div
-									key={`day-${id + 1}`}
-									className='cell day'
-									data-date={`${dayObj.day}/${dayObj.month}/${dayObj.year}`}
-									onClick={e => {
-										e.target.classList.toggle('active');
-										setSelectedDays(selectedDaysArray => {
-											return [
-												...selectedDaysArray,
-												e.target.dataset.date
-											];
-										});
-									}}
-								>
-									<p>{dayObj.day}</p>
-								</div>
-							) : (
-								<div key={`day-${id + 1}`} className='cell day'>
-									<p></p>
-								</div>
-							)
-						)}
+						).map((dayObj, id) => (
+							<Day
+								key={`day-${id + 1}`}
+								dayObj={dayObj}
+								setSelectedDays={setSelectedDays}
+							/>
+						))}
 					</div>
 				</div>
 			</div>

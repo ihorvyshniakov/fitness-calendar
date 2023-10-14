@@ -17,5 +17,6 @@ export const generateMonthDays = (daysInMonth, firstDayOfWeek, activeDate) => {
 		result.pop();
 	}
 
+	console.log('run generateMonthDays');
 	return result;
 };
