@@ -1,4 +1,10 @@
-export const generateMonthDays = (activeDate, currentDate) => {
+export const getLocalValue = name => JSON.parse(localStorage.getItem(name));
+
+export const saveLocalValue = (name, value) => {
+	localStorage.setItem(name, JSON.stringify(value));
+};
+
+export const generateMonthDaysArray = (activeDate, currentDate) => {
 	const daysInMonth = activeDate.daysInMonth();
 	const firstDayOfWeek = activeDate.startOf('month').day();
 

@@ -4,7 +4,11 @@ import updateLocale from 'dayjs/plugin/updateLocale';
 import localeData from 'dayjs/plugin/localeData';
 import weekday from 'dayjs/plugin/weekday';
 
-import { generateMonthDays } from './components/helpers/Functions';
+import {
+	generateMonthDaysArray,
+	getLocalValue,
+	saveLocalValue
+} from './components/helpers/functions';
 
 import './App.scss';
 
@@ -34,9 +38,11 @@ const now = dayjs();
 
 const App = () => {
 	const [activeDate, setActiveDate] = useState(now);
-	const [selectedDays, setSelectedDays] = useState([]);
+	const [selectedDays, setSelectedDays] = useState(
+		getLocalValue('selectedDays') || []
+	);
 	const [activeMonth, setActiveMonth] = useState(
-		generateMonthDays(activeDate, now)
+		generateMonthDaysArray(activeDate, now)
 	);
 
 	const handlePrevMonth = () => {
@@ -48,8 +54,12 @@ const App = () => {
 	};
 
 	useEffect(() => {
-		setActiveMonth(generateMonthDays(activeDate, now));
+		setActiveMonth(generateMonthDaysArray(activeDate, now));
 	}, [activeDate]);
+
+	useEffect(() => {
+		saveLocalValue('selectedDays', selectedDays);
+	}, [selectedDays]);
 
 	return (
 		<>
