@@ -11,19 +11,21 @@ const Day = props => {
 
 	const { dayNumber, date, isActive, isCurrentDay } = dayObj;
 
+	const handleSelectedDay = () => {
+		setSelectedDays(selectedDaysArray => {
+			if (isActive) {
+				return selectedDaysArray.filter(day => day !== date);
+			}
+			return [...selectedDaysArray, date];
+		});
+	};
+
 	return (
 		<div
 			className={`cell day${isCurrentDay ? ' currentDay' : ''}${
 				isActive ? ' active' : ''
 			}`}
-			onClick={() => {
-				setSelectedDays(selectedDaysArray => {
-					if (isActive) {
-						return selectedDaysArray.filter(day => day !== date);
-					}
-					return [...selectedDaysArray, date];
-				});
-			}}
+			onClick={handleSelectedDay}
 		>
 			<p>{dayNumber}</p>
 		</div>
