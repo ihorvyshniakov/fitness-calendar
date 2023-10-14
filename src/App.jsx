@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import * as dayjs from 'dayjs';
+import dayjs from 'dayjs';
 import updateLocale from 'dayjs/plugin/updateLocale';
 import localeData from 'dayjs/plugin/localeData';
 import weekday from 'dayjs/plugin/weekday';
