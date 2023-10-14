@@ -48,8 +48,6 @@ const App = () => {
 		console.log('selectedDays: ', selectedDays);
 	}, [selectedDays]);
 
-	// TODO: fix bug with adding to selectedDays array
-
 	return (
 		<>
 			<div className='logo'>
@@ -98,13 +96,11 @@ const App = () => {
 									className='cell day'
 									data-date={`${dayObj.day}/${dayObj.month}/${dayObj.year}`}
 									onClick={e => {
-										e.currentTarget.classList.toggle(
-											'active'
-										);
+										e.target.classList.toggle('active');
 										setSelectedDays(selectedDaysArray => {
 											return [
 												...selectedDaysArray,
-												e.currentTarget.dataset.date
+												e.target.dataset.date
 											];
 										});
 									}}
