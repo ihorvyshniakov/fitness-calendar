@@ -1,5 +1,5 @@
 const Day = props => {
-	const { dayObj, setSelectedDays } = props;
+	const { dayObj, selectedDays, setSelectedDays } = props;
 
 	if (!dayObj) {
 		return (
@@ -13,7 +13,9 @@ const Day = props => {
 
 	return (
 		<div
-			className={`cell day ${isCurrentDay ? 'currentDay' : ''}`}
+			className={`cell day ${isCurrentDay ? 'currentDay' : ''} ${
+				selectedDays.includes(date) ? 'active' : ''
+			}`}
 			data-date={date}
 			onClick={e => {
 				const isActive = e.target.classList.contains('active');
