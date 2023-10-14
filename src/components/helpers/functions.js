@@ -21,6 +21,9 @@ export const generateMonthDaysArray = (activeDate, currentDate) => {
 			? {
 					dayNumber,
 					date,
+					isActive: (getLocalValue('selectedDays') || []).includes(
+						date
+					),
 					isCurrentDay: currentDate.format('DD/MM/YYYY') === date
 			  }
 			: null;

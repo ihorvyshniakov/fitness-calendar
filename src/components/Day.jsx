@@ -1,5 +1,5 @@
 const Day = props => {
-	const { dayObj, selectedDays, setSelectedDays } = props;
+	const { dayObj, setSelectedDays } = props;
 
 	if (!dayObj) {
 		return (
@@ -9,30 +9,20 @@ const Day = props => {
 		);
 	}
 
-	const { dayNumber, date, isCurrentDay } = dayObj;
+	const { dayNumber, date, isActive, isCurrentDay } = dayObj;
 
 	return (
 		<div
-			className={`cell day ${isCurrentDay ? 'currentDay' : ''} ${
-				selectedDays.includes(date) ? 'active' : ''
+			className={`cell day${isCurrentDay ? ' currentDay' : ''}${
+				isActive ? ' active' : ''
 			}`}
-			data-date={date}
-			onClick={e => {
-				const isActive = e.target.classList.contains('active');
-				if (isActive) {
-					e.target.classList.remove('active');
-					setSelectedDays(selectedDaysArray => {
-						return selectedDaysArray.filter(
-							day => day !== e.target.dataset.date
-						);
-					});
-				} else {
-					e.target.classList.add('active');
-					setSelectedDays(selectedDaysArray => [
-						...selectedDaysArray,
-						e.target.dataset.date
-					]);
-				}
+			onClick={() => {
+				setSelectedDays(selectedDaysArray => {
+					if (isActive) {
+						return selectedDaysArray.filter(day => day !== date);
+					}
+					return [...selectedDaysArray, date];
+				});
 			}}
 		>
 			<p>{dayNumber}</p>

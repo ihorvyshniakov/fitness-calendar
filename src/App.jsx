@@ -27,6 +27,17 @@ const App = () => {
 
 	useEffect(() => {
 		saveLocalValue('selectedDays', selectedDays);
+		setActiveMonth(prev =>
+			prev.map(el => {
+				if (el) {
+					return {
+						...el,
+						isActive: selectedDays.includes(el.date)
+					};
+				}
+				return el;
+			})
+		);
 	}, [selectedDays]);
 
 	return (
@@ -42,7 +53,6 @@ const App = () => {
 					<WeekDaysTitles />
 					<MonthDays
 						activeMonth={activeMonth}
-						selectedDays={selectedDays}
 						setSelectedDays={setSelectedDays}
 					/>
 				</div>
